@@ -3,11 +3,10 @@ import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Link from "next/link";
 
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
-
-import NewsCard from "../components/newsCard";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -188,7 +187,42 @@ export default function Home() {
           </div>
         )}
         {!loading && data !== undefined && data.length !== 0 && (
-          <NewsCard data={data} />
+          <>
+            {data.map((data, idx) => (
+              <Link
+                key={idx}
+                href={data.url}
+                className="card col-12 col-md-6 col-xl-4 mb-4"
+              >
+                <div className="row">
+                  {(data.urlToImage !== null ||
+                    data.urlToImage === "[Removed]") && (
+                    <div className="col-12">
+                      <img
+                        loading="lazy"
+                        src={data.urlToImage}
+                        alt={data.title}
+                        className="w-100"
+                      />
+                    </div>
+                  )}
+                  {(data.title !== null || data.title === "[Removed]") && (
+                    <div className="col-12 text-center p-3">
+                      <strong>{data.title}</strong>
+                    </div>
+                  )}
+                  {(data.content !== null || data.content === "[Removed]") && (
+                    <>
+                      <hr Name="col-12" />
+                      <div className="col-12 text-center p-4">
+                        <em>{data.content.split("[")[0]}</em>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </>
         )}
       </main>
       <script
