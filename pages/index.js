@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [data, setData] = useState([]);
   const [feedtype, setFeedType] = useState("all");
-  const [query, setQuery] = useState("general");
+  const [query, setQuery] = useState("");
   const [category, setCategory] = useState("entertainment");
   const [country, setCountry] = useState("us");
   const [loading, setIsLoading] = useState(false);
@@ -184,12 +184,12 @@ export default function Home() {
               <Link
                 key={idx}
                 href={data.url}
-                className="card col-12 col-md-6 col-xl-4 mb-4"
+                className="card col-12 col-md-6 col-xl-4 mb-4 overflow-hidden"
               >
                 <div className="row">
                   {(data.urlToImage !== null ||
                     data.urlToImage === "[Removed]") && (
-                    <div className="col-12 p-0 overflow-hidden">
+                    <div className="col-12 p-0">
                       <img
                         loading="lazy"
                         src={data.urlToImage}
