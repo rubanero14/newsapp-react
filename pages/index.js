@@ -39,24 +39,18 @@ export default function Home() {
     setIsLoading(false);
   };
   const fetchData = async (feedtype, query, category, country) => {
-    let url, data;
-    switch (feedtype) {
-      case "top":
-        url = `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&pageSize=100&sortBy=popularity&apiKey=${publicRuntimeConfig.API_KEY}`;
-        break;
-      case "all":
-      default:
-        url = `https://newsapi.org/v2/everything?q=${query}&pageSize=100&sortBy=popularity&apiKey=${publicRuntimeConfig.API_KEY}`;
+    try {
+      const res = axios.get(`https://cms-backend-tau.vercel.app/newsapi/data`, {
+        feedtype,
+        query,
+        category,
+        country,
+      });
+      setData(res.data);
+      console.log(res.data);
+    } catch (err) {
+      throw new Error(err);
     }
-    console.log(url);
-    await axios
-      .get(url)
-      .then((res) => {
-        data = res.data.articles;
-        console.log("data", data);
-        setData(data);
-      })
-      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
