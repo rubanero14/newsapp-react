@@ -104,7 +104,7 @@ export default function Home() {
               data-bs-parent="#accordionExample"
             >
               <div className="accordion-body row">
-                <div className="col-12 p-3">
+                <div className="col-12">
                   <select
                     name="feedType"
                     className="form-select w-100 mb-2"
@@ -125,7 +125,7 @@ export default function Home() {
                         name="searchQuery"
                         className="form-control search w-100 mb-2"
                         onChange={handleQuery}
-                        defaultValue={query}
+                        defaultValue={decodeURIComponent(query)}
                       />
                     </>
                   )}
