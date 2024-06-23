@@ -71,7 +71,7 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
+      <main className={`${styles.main} ${inter.className} p-5 px-3`}>
         <h1 className="text-center mb-3">NEWS APP</h1>
         <div className="accordion" id="accordionExample">
           <div className="accordion-item">
