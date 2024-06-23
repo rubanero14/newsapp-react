@@ -42,7 +42,9 @@ export default function Home() {
   const fetchData = async () => {
     await axios
       .get(
-        `https://cms-backend-tau.vercel.app/newsapi/data/${feedtype}/${query}/${category}/${country}`
+        `https://cms-backend-tau.vercel.app/newsapi/data/${feedtype}/${
+          query === "" ? undefined : query
+        }/${category}/${country}`
       )
       .then((res) => {
         setData(res.data);
