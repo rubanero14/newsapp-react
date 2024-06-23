@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [data, setData] = useState([]);
-  const [feedtype, setFeedType] = useState("all");
+  const [feedtype, setFeedType] = useState("top");
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("entertainment");
   const [country, setCountry] = useState("us");
