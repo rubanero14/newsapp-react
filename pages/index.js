@@ -7,7 +7,7 @@ import axios from "axios";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
-import NewsCard from "@/components/newsCard";
+import NewsCard from "../components/newsCard";
 
 const inter = Inter({ subsets: ["latin"] });
 
