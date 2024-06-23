@@ -39,7 +39,7 @@ export default function Home() {
     fetchData();
     setIsLoading(false);
   };
-  const fetchData = async (feedtype, query, category, country) => {
+  const fetchData = async () => {
     await axios
       .get(
         `https://cms-backend-tau.vercel.app/newsapi/data/${feedtype}/${query}/${category}/${country}`
@@ -53,9 +53,9 @@ export default function Home() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchData(feedtype, query, category, country);
+    fetchData();
     setIsLoading(false);
-  }, [category, country, feedtype, query]);
+  }, []);
 
   return (
     <>
@@ -159,12 +159,12 @@ export default function Home() {
                       </select>
                     </>
                   )}
-                  {/* <button
+                  <button
                     className="btn btn-secondary w-100"
                     onClick={handleSubmit}
                   >
                     Search
-                  </button> */}
+                  </button>
                 </div>
               </div>
             </div>
