@@ -5,8 +5,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 
-import getConfig from "next/config";
-const { publicRuntimeConfig } = getConfig();
+//For ENV VARS
+// import getConfig from "next/config";
+// const { publicRuntimeConfig } = getConfig();
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,18 +40,15 @@ export default function Home() {
     setIsLoading(false);
   };
   const fetchData = async (feedtype, query, category, country) => {
-    try {
-      const res = axios.get(`https://cms-backend-tau.vercel.app/newsapi/data`, {
-        feedtype,
-        query,
-        category,
-        country,
-      });
-      setData(res.data);
-      console.log(res.data);
-    } catch (err) {
-      throw new Error(err);
-    }
+    await axios
+      .get(
+        `https://cms-backend-tau.vercel.app/newsapi/data/${feedtype}/${query}/${category}/${country}`
+      )
+      .then((res) => {
+        setData(res.data.article);
+        console.log("data", data);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
