@@ -18,6 +18,7 @@ export default function Home() {
   const [category, setCategory] = useState("entertainment");
   const [country, setCountry] = useState("us");
   const [loading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleFeedType = (e) => {
     setFeedType(e.target.value);
@@ -35,11 +36,10 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true);
     fetchData();
-    setIsLoading(false);
   };
   const fetchData = async () => {
+    setIsLoading(true);
     await axios
       .get(
         `https://cms-backend-tau.vercel.app/newsapi/data/${feedtype}/${
@@ -48,15 +48,17 @@ export default function Home() {
       )
       .then((res) => {
         setData(res.data);
+        setIsLoading(false);
         console.log("data", data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setIsLoading(false);
+        setError(err.message);
+      });
   };
 
   useEffect(() => {
-    setIsLoading(true);
     fetchData();
-    setIsLoading(false);
   }, []);
 
   return (
@@ -76,7 +78,7 @@ export default function Home() {
       <main className={`${styles.main} ${inter.className} p-5 px-3`}>
         <h1 className="text-center mb-3">NEWS APP</h1>
         <div className="accordion" id="accordionExample">
-          <div className="accordion-item">
+          <div className="accordion-item overflow-hidden">
             <strong>
               <h2 className="accordion-header">
                 <button
@@ -180,13 +182,13 @@ export default function Home() {
             </div>
           </div>
         )}
-        {!loading && data !== undefined && data.length !== 0 && (
+        {!loading && error === "" && data !== undefined && data.length !== 0 ? (
           <>
             {data.map((data, idx) => (
               <Link
                 key={idx}
                 href={data.url}
-                className="card col-12 col-md-6 col-xl-4 mb-4 overflow-hidden"
+                className="card bg-secondary col-12 col-md-6 col-xl-4 mb-4 overflow-hidden"
               >
                 <div className="row">
                   {(data.urlToImage !== null ||
@@ -201,14 +203,14 @@ export default function Home() {
                     </div>
                   )}
                   {(data.title !== null || data.title === "[Removed]") && (
-                    <div className="col-12 text-center text-secondary p-3">
+                    <div className="col-12 text-center text-light p-3">
                       <strong>{data.title}</strong>
                     </div>
                   )}
                   {(data.content !== null || data.content === "[Removed]") && (
                     <>
                       <hr Name="col-12" />
-                      <div className="col-12 text-center text-secondary pt-0 p-4">
+                      <div className="col-12 text-center text-light pt-0 p-4">
                         <em
                           dangerouslySetInnerHTML={{
                             __html: data.content.split("[")[0],
@@ -221,7 +223,7 @@ export default function Home() {
                     data.publishedAt === "[Removed]") && (
                     <>
                       <hr Name="col-12" />
-                      <div className="col-12 text-center text-secondary pt-0 p-3">
+                      <div className="col-12 text-center text-light pt-0 p-3">
                         <em>
                           Release date:{" "}
                           {new Date(data.publishedAt).toDateString()}
@@ -233,6 +235,8 @@ export default function Home() {
               </Link>
             ))}
           </>
+        ) : (
+          <h2 className="text-light">{error}</h2>
         )}
       </main>
       <script
