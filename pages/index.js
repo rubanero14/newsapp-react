@@ -219,7 +219,7 @@ export default function Home() {
                     data.publishedAt === "[Removed]") && (
                     <>
                       <hr Name="col-12" />
-                      <div className="col-12 text-center text-secondary pt-0 p-4">
+                      <div className="col-12 text-center text-secondary pt-0 p-3">
                         <em>
                           Release date:{" "}
                           {new Date(data.publishedAt).toDateString()}
