@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [data, setData] = useState([]);
   const [feedtype, setFeedType] = useState("all");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("general");
   const [category, setCategory] = useState("entertainment");
   const [country, setCountry] = useState("us");
   const [loading, setIsLoading] = useState(false);
@@ -189,7 +189,7 @@ export default function Home() {
                 <div className="row">
                   {(data.urlToImage !== null ||
                     data.urlToImage === "[Removed]") && (
-                    <div className="col-12">
+                    <div className="col-12 p-0 overflow-hidden">
                       <img
                         loading="lazy"
                         src={data.urlToImage}
@@ -199,19 +199,31 @@ export default function Home() {
                     </div>
                   )}
                   {(data.title !== null || data.title === "[Removed]") && (
-                    <div className="col-12 text-center p-3">
+                    <div className="col-12 text-center text-secondary p-3">
                       <strong>{data.title}</strong>
                     </div>
                   )}
                   {(data.content !== null || data.content === "[Removed]") && (
                     <>
                       <hr Name="col-12" />
-                      <div className="col-12 text-center pt-0 p-4">
+                      <div className="col-12 text-center text-secondary pt-0 p-4">
                         <em
                           dangerouslySetInnerHTML={{
                             __html: data.content.split("[")[0],
                           }}
                         ></em>
+                      </div>
+                    </>
+                  )}
+                  {(data.publishedAt !== null ||
+                    data.publishedAt === "[Removed]") && (
+                    <>
+                      <hr Name="col-12" />
+                      <div className="col-12 text-center text-secondary pt-0 p-4">
+                        <em>
+                          Release date:{" "}
+                          {new Date(data.publishedAt).toDateString()}
+                        </em>
                       </div>
                     </>
                   )}
