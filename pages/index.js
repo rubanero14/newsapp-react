@@ -206,8 +206,12 @@ export default function Home() {
                   {(data.content !== null || data.content === "[Removed]") && (
                     <>
                       <hr Name="col-12" />
-                      <div className="col-12 text-center p-4">
-                        <em>{data.content.split("[")[0]}</em>
+                      <div className="col-12 text-center pt-0 p-4">
+                        <em
+                          dangerouslySetInnerHTML={{
+                            __html: data.content.split("[")[0],
+                          }}
+                        ></em>
                       </div>
                     </>
                   )}
