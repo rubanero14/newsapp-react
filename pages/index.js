@@ -45,7 +45,7 @@ export default function Home() {
         `https://cms-backend-tau.vercel.app/newsapi/data/${feedtype}/${query}/${category}/${country}`
       )
       .then((res) => {
-        setData(res.data.article);
+        setData(res.data);
         console.log("data", data);
       })
       .catch((err) => console.log(err));
