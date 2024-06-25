@@ -260,8 +260,10 @@ export default function Home() {
               </Link>
             ))}
           </>
+        ) : data.length === 0 ? (
+          <h2 className="text-center text-light">No results found.</h2>
         ) : (
-          <h2 className="text-light">{error}</h2>
+          <h2 className="text-center text-light">{error}</h2>
         )}
       </main>
       <script
