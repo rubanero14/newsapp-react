@@ -107,7 +107,7 @@ export default function Home() {
                   aria-expanded="true"
                   aria-controls="collapseOne"
                 >
-                  Search Control
+                  Search Controls
                 </button>
               </h2>
             </strong>
@@ -123,13 +123,13 @@ export default function Home() {
                       className="btn navi btn-primary w-100"
                       onClick={() => setFeedType("top")}
                     >
-                      Headlines
+                      Top Headlines
                     </button>
                     <button
                       className="btn navi btn-success w-100"
                       onClick={() => setFeedType("all")}
                     >
-                      Search
+                      Custom Search
                     </button>
                   </div>
                   {feedtype === "all" && (
