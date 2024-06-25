@@ -39,6 +39,7 @@ export default function Home() {
     fetchData();
   };
   const fetchData = async () => {
+    console.log(feedtype);
     setIsLoading(true);
     await axios
       .get(
@@ -117,18 +118,20 @@ export default function Home() {
             >
               <div className="accordion-body row">
                 <div className="col-12">
-                  <select
-                    name="feedType"
-                    className="form-select w-100 mb-2"
-                    onChange={handleFeedType}
-                    defaultValue={feedtype}
-                  >
-                    <option disabled>Choose a Feed Type</option>
-                    <option value="all" selected>
-                      Everything
-                    </option>
-                    <option value="top">Headlines</option>
-                  </select>
+                  <div className="d-flex navi-wrapper justify-content-center align-items-center mb-3">
+                    <button
+                      className="btn navi btn-primary w-100"
+                      onClick={() => setFeedType("top")}
+                    >
+                      Headlines
+                    </button>
+                    <button
+                      className="btn navi btn-success w-100"
+                      onClick={() => setFeedType("all")}
+                    >
+                      Search
+                    </button>
+                  </div>
                   {feedtype === "all" && (
                     <>
                       <input
@@ -208,7 +211,8 @@ export default function Home() {
                 className="card bg-secondary col-12 col-md-6 col-xl-4 mb-4 overflow-hidden"
               >
                 <div className="row">
-                  {(data.urlToImage !== null ||
+                  {(data.urlToImage !== "" ||
+                    data.urlToImage !== null ||
                     data.urlToImage === "[Removed]") && (
                     <div className="col-12 p-0">
                       <img
@@ -219,24 +223,28 @@ export default function Home() {
                       />
                     </div>
                   )}
-                  {(data.title !== null || data.title === "[Removed]") && (
+                  {(data.title !== "" ||
+                    data.title !== null ||
+                    data.title === "[Removed]") && (
                     <div className="col-12 text-center text-light p-3">
                       <strong>{data.title}</strong>
                     </div>
                   )}
-                  {(data.content !== null || data.content === "[Removed]") && (
+                  {((data.content !== "" || data.content) !== null ||
+                    data.content === "[Removed]") && (
                     <>
                       <hr Name="col-12" />
                       <div className="col-12 text-center text-light pt-0 p-4">
                         <em
                           dangerouslySetInnerHTML={{
-                            __html: data.content.split("[")[0],
+                            __html: data.content?.split("[")[0],
                           }}
                         ></em>
                       </div>
                     </>
                   )}
-                  {(data.publishedAt !== null ||
+                  {(data.publishedAt !== "" ||
+                    data.publishedAt !== null ||
                     data.publishedAt === "[Removed]") && (
                     <>
                       <hr Name="col-12" />

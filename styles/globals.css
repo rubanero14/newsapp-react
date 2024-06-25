@@ -124,6 +124,25 @@ hr {
   margin: 30px auto;
 }
 
+.navi-wrapper {
+  .btn.navi {
+    transition: all 0.1s ease-in-out;
+  }
+  .btn.navi:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .btn.navi:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.btn.navi:focus,
+.btn.navi:active {
+  transform: scale(0.9);
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
