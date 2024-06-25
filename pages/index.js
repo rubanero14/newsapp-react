@@ -54,7 +54,7 @@ export default function Home() {
       })
       .catch((err) => {
         setIsLoading(false);
-        setError(err.message);
+        setError(err);
       });
   };
 
@@ -202,7 +202,7 @@ export default function Home() {
             </div>
           </div>
         )}
-        {!loading && error === "" && data !== undefined && data.length !== 0 ? (
+        {!loading && data !== undefined && data.length !== 0 && (
           <>
             {data.map((data, idx) => (
               <Link
@@ -260,10 +260,12 @@ export default function Home() {
               </Link>
             ))}
           </>
-        ) : data.length === 0 ? (
-          <h2 className="text-center text-light">No results found.</h2>
-        ) : (
+        )}
+        {!loading && error !== "" && (
           <h2 className="text-center text-light">{error}</h2>
+        )}
+        {!loading && data.length === 0 && error === "" && (
+          <h2 className="text-center text-light">No results found.</h2>
         )}
       </main>
       <script
