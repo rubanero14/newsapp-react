@@ -39,7 +39,7 @@ export default function Home() {
     setIsLoading(true);
     await axios
       .get(
-        `https://cms-backend-1yrg.vercel.app/newsapi/data/${feedtype}/${
+        `https://cms-backend-acns.vercel.app/newsapi/data/${feedtype}/${
           query === "" ? undefined : query
         }/${category}/${country}`
       )
