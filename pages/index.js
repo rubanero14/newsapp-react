@@ -271,7 +271,7 @@ export default function Home() {
           </>
         )}
         {!loading && error && (
-          <h2 className="text-center text-light">{data.message}</h2>
+          <h2 className="text-center text-danger">{data.message}</h2>
         )}
         {!loading && !error && Array.isArray(data) && data.length === 0 && (
           <h2 className="text-center text-light">No results found.</h2>
