@@ -207,61 +207,67 @@ export default function Home() {
         )}
         {!loading && !error && Array.isArray(data) && (
           <>
-            {data?.map((data, idx) => (
-              <Link
-                key={idx}
-                href={data.url}
-                className="card bg-secondary col-12 col-md-6 col-xl-4 mb-4 overflow-hidden"
-              >
-                <div className="row">
-                  {(data.urlToImage !== "" ||
-                    data.urlToImage !== null ||
-                    data.urlToImage === "[Removed]") && (
-                    <div className="col-12 p-0">
-                      <img
-                        loading="lazy"
-                        src={data.urlToImage}
-                        alt={data.title}
-                        className="w-100"
-                      />
-                    </div>
-                  )}
-                  {(data.title !== "" ||
-                    data.title !== null ||
-                    data.title === "[Removed]") && (
-                    <div className="col-12 text-center text-light p-3">
-                      <strong>{data.title}</strong>
-                    </div>
-                  )}
-                  {((data.content !== "" || data.content) !== null ||
-                    data.content === "[Removed]") && (
-                    <>
-                      <hr Name="col-12" />
-                      <div className="col-12 text-center text-light pt-0 p-4">
-                        <em
-                          dangerouslySetInnerHTML={{
-                            __html: data.content?.split("[")[0],
-                          }}
-                        ></em>
+            {data?.map((data, idx) => {
+              (!data.publishedAt.includes("Removed") ||
+                !data.publishedAt.includes("Removed")) && (
+                <Link
+                  key={idx}
+                  href={data.url}
+                  className="card bg-secondary col-12 col-md-6 col-xl-4 mb-4 overflow-hidden"
+                >
+                  <div className="row">
+                    {(data.urlToImage !== "" ||
+                      data.urlToImage !== null ||
+                      data.urlToImage === "[Removed]") && (
+                      <div className="col-12 p-0">
+                        <img
+                          loading="lazy"
+                          src={data.urlToImage}
+                          alt={data.title}
+                          className="w-100"
+                        />
                       </div>
-                    </>
-                  )}
-                  {(data.publishedAt !== "" ||
-                    data.publishedAt !== null ||
-                    data.publishedAt === "[Removed]") && (
-                    <>
-                      <hr Name="col-12" />
-                      <div className="col-12 text-center text-light pt-0 p-3">
-                        <em>
-                          Release date:{" "}
-                          {new Date(data.publishedAt).toDateString()}
-                        </em>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </Link>
-            ))}
+                    )}
+                    {(data.title !== "" ||
+                      data.title !== null ||
+                      data.title.includes("Removed")) && (
+                      <>
+                        <div className="col-12 text-center text-light p-3">
+                          <strong>{data.title}</strong>
+                        </div>
+                        <hr Name="col-12" />
+                      </>
+                    )}
+                    {(data.content !== "" ||
+                      data.content !== null ||
+                      data.content.includes("Removed")) && (
+                      <>
+                        <div className="col-12 text-center text-light pt-0 p-4">
+                          <em
+                            dangerouslySetInnerHTML={{
+                              __html: data.content?.split("[")[0],
+                            }}
+                          ></em>
+                        </div>
+                        <hr Name="col-12" />
+                      </>
+                    )}
+                    {(data.publishedAt !== "" ||
+                      data.publishedAt !== null ||
+                      data.publishedAt.includes("Removed")) && (
+                      <>
+                        <div className="col-12 text-center text-light pt-0 p-3">
+                          <em>
+                            Release date:{" "}
+                            {new Date(data.publishedAt).toDateString()}
+                          </em>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
           </>
         )}
         {!loading && error && (
