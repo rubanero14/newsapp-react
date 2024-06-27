@@ -39,16 +39,23 @@ export default function Home() {
     setIsLoading(true);
     await axios
       .get(
-        `https://cms-backend-1yrg.vercel.app/newsapi/newsapi/data/${feedtype}/${
+        `http://localhost:4000/newsapi/data/${feedtype}/${
           query === "" ? undefined : query
         }/${category}/${country}`
       )
       .then((res) => {
-        setData(res.data);
+        if (res.data.message) {
+          setData(res.data);
+          setError(true);
+        } else {
+          setData(res.data.articles);
+        }
+        console.log(data);
         setIsLoading(false);
       })
       .catch((err) => {
-        setData(err.message);
+        setData(err);
+        console.log(data);
         setIsLoading(false);
         setError(true);
       });
@@ -198,9 +205,9 @@ export default function Home() {
             </div>
           </div>
         )}
-        {!loading && !error && data.length > 0 && (
+        {!loading && !error && Array.isArray(data) && (
           <>
-            {data.map((data, idx) => (
+            {data?.map((data, idx) => (
               <Link
                 key={idx}
                 href={data.url}
@@ -258,9 +265,9 @@ export default function Home() {
           </>
         )}
         {!loading && error && (
-          <h2 className="text-center text-light">{data}</h2>
+          <h2 className="text-center text-light">{data.message}</h2>
         )}
-        {!loading && !error && data.length === 0 && (
+        {!loading && !error && Array.isArray(data) && data.length === 0 && (
           <h2 className="text-center text-light">No results found.</h2>
         )}
       </main>
