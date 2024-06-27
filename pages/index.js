@@ -18,14 +18,10 @@ export default function Home() {
   const [category, setCategory] = useState("entertainment");
   const [country, setCountry] = useState("us");
   const [loading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
 
-  const handleFeedType = (e) => {
-    setFeedType(e.target.value);
-  };
   const handleQuery = (e) => {
     setQuery(encodeURIComponent(e.target.value));
-    console.log("query: ", query);
   };
   const handleCategory = (e) => {
     setCategory(e.target.value);
@@ -39,22 +35,22 @@ export default function Home() {
     fetchData();
   };
   const fetchData = async () => {
-    console.log(feedtype);
+    setError(false);
     setIsLoading(true);
     await axios
       .get(
-        `https://cms-backend-kka3.vercel.app/newsapi/data/${feedtype}/${
+        `https://cms-backend-1yrg.vercel.app/newsapi/newsapi/data/${feedtype}/${
           query === "" ? undefined : query
         }/${category}/${country}`
       )
       .then((res) => {
         setData(res.data);
         setIsLoading(false);
-        console.log(data);
       })
       .catch((err) => {
+        setData(err.message);
         setIsLoading(false);
-        setError(err);
+        setError(true);
       });
   };
 
@@ -202,7 +198,7 @@ export default function Home() {
             </div>
           </div>
         )}
-        {!loading && data !== undefined && data.length !== 0 && (
+        {!loading && !error && data.length > 0 && (
           <>
             {data.map((data, idx) => (
               <Link
@@ -261,10 +257,10 @@ export default function Home() {
             ))}
           </>
         )}
-        {!loading && error !== "" && (
-          <h2 className="text-center text-light">{error}</h2>
+        {!loading && error && (
+          <h2 className="text-center text-light">{data}</h2>
         )}
-        {!loading && data.length === 0 && error === "" && (
+        {!loading && !error && data.length === 0 && (
           <h2 className="text-center text-light">No results found.</h2>
         )}
       </main>
