@@ -112,7 +112,8 @@ hr {
   }
 }
 
-#accordionExample {
+#accordionExample,
+#accordionExample1 {
   width: 350px;
 }
 
@@ -124,17 +125,19 @@ hr {
   margin: 30px auto;
 }
 
-.navi-wrapper {
+.navi-wrapper,
+.bookmark {
   .btn.navi {
     transition: all 0.1s ease-in-out;
   }
-  .btn.navi:first-child {
+  .btn:first-child {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
-  .btn.navi:last-child {
+  .btn:last-child {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    margin-left: -1px;
   }
 }
 
@@ -150,7 +153,8 @@ hr {
 }
 
 @media (max-width: 700px) {
-  #accordionExample {
+  #accordionExample,
+  #accordionExample1 {
     width: 100%;
   }
 }

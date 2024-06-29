@@ -131,7 +131,8 @@
     padding: 0 15px;
   }
 
-  #accordionExample {
+  #accordionExample,
+  #accordionExample1 {
     width: 100%;
   }
 

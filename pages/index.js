@@ -19,6 +19,8 @@ export default function Home() {
   const [country, setCountry] = useState("us");
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [saveSearch, setSaveSearch] = useState([]);
+  const [isExisting, setIsExisting] = useState(false);
 
   const handleQuery = (e) => {
     setQuery(encodeURIComponent(e.target.value));
@@ -28,6 +30,54 @@ export default function Home() {
   };
   const handleCountry = (e) => {
     setCountry(e.target.value);
+  };
+
+  const handleSaveSearch = () => {
+    saveSearch.map((search) =>
+      setIsExisting(search.search === decodeURIComponent(query) ? true : false)
+    );
+
+    if (saveSearch.length > 0 && !isExisting && query.length > 0) {
+      setSaveSearch([
+        ...saveSearch,
+        {
+          id: new Date(),
+          search: decodeURIComponent(query),
+        },
+      ]);
+    }
+
+    if (saveSearch.length === 0 && query.length > 0) {
+      setSaveSearch([
+        {
+          id: new Date(),
+          search: decodeURIComponent(query),
+        },
+      ]);
+    }
+
+    localStorage.setItem("savedSearches", JSON.stringify(saveSearch));
+  };
+
+  const getSaveSearch = () => {
+    if (
+      localStorage.getItem("savedSearches") !== null ||
+      localStorage.getItem("savedSearches").length > 0
+    ) {
+      const data = JSON.parse(localStorage.getItem("savedSearches"));
+      setSaveSearch(data);
+    }
+  };
+
+  const removeBookmark = (id) => {
+    const newData = saveSearch.filter((search) => search.id !== id);
+    setSaveSearch(newData);
+    localStorage.setItem("savedSearches", JSON.stringify(newData));
+  };
+
+  const fetchBookmarkData = async (str) => {
+    setQuery(str);
+    fetchData();
   };
 
   const handleSubmit = (e) => {
@@ -50,16 +100,18 @@ export default function Home() {
         } else {
           setData(res.data.articles);
         }
-        console.log(data);
         setIsLoading(false);
       })
       .catch((err) => {
         setData(err);
-        console.log(data);
         setIsLoading(false);
         setError(true);
       });
   };
+
+  useEffect(() => {
+    getSaveSearch();
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -98,7 +150,7 @@ export default function Home() {
             loading="lazy"
           />
         </h5>
-        <div className="accordion" id="accordionExample">
+        <div className="accordion mb-3" id="accordionExample">
           <div className="accordion-item overflow-hidden">
             <strong>
               <h2 className="accordion-header">
@@ -139,7 +191,7 @@ export default function Home() {
                     <>
                       <input
                         placeholder="Search something.."
-                        type="text"
+                        type="search"
                         name="searchQuery"
                         className="form-control search w-100 mb-2"
                         onChange={handleQuery}
@@ -187,16 +239,72 @@ export default function Home() {
                     </>
                   )}
                   <button
-                    className="btn btn-secondary w-100"
+                    className="btn btn-secondary w-100 mb-2"
                     onClick={handleSubmit}
+                    type="submit"
                   >
                     Search
                   </button>
+                  {feedtype === "all" && (
+                    <button
+                      className="btn btn-success w-100"
+                      onClick={handleSaveSearch}
+                    >
+                      Bookmark This
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {saveSearch.length > 0 && (
+          <div className="accordion" id="accordionExample1">
+            <div className="accordion-item overflow-hidden">
+              <strong>
+                <h2 className="accordion-header">
+                  <button
+                    className="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo"
+                    aria-expanded="true"
+                    aria-controls="collapseTwo"
+                  >
+                    Bookmarked Searches
+                  </button>
+                </h2>
+              </strong>
+              <div
+                id="collapseTwo"
+                className="accordion-collapse collapse show"
+                data-bs-parent="#accordionExample1"
+              >
+                <div className="accordion-body row">
+                  {saveSearch.map((search) => (
+                    <div
+                      key={search.id}
+                      className="d-flex bookmark justify-content-center align-items-center mb-3"
+                    >
+                      <button
+                        onClick={() => fetchBookmarkData(search.search)}
+                        className="btn btn-outline-secondary w-75"
+                      >
+                        {search.search.toUpperCase()}
+                      </button>
+                      <button
+                        onClick={() => removeBookmark(search.id)}
+                        className="btn btn-outline-danger w-25"
+                      >
+                        Del
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="divider"></div>
         {loading && (
           <div className="output">
