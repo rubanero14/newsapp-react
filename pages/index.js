@@ -209,16 +209,16 @@ export default function Home() {
                         <div class="input-group-append">
                           <button
                             className="btn btn-outline-secondary"
-                            type="submit"
-                          >
-                            <i class="bi bi-search"></i>
-                          </button>
-                          <button
-                            className="btn btn-outline-secondary"
                             type="button"
                             onClick={handleSaveSearch}
                           >
                             <i class="bi bi-bookmark-heart"></i>
+                          </button>
+                          <button
+                            className="btn btn-outline-secondary"
+                            type="submit"
+                          >
+                            <i class="bi bi-search"></i>
                           </button>
                         </div>
                       </div>
@@ -259,6 +259,12 @@ export default function Home() {
                         <option value="jp">Japan</option>
                         <option value="th">Thailand</option>
                       </select>
+                      <button
+                        className="btn btn-outline-secondary w-100"
+                        type="submit"
+                      >
+                        Search <i class="bi bi-search"></i>
+                      </button>
                     </>
                   )}
                 </form>
