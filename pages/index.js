@@ -40,6 +40,16 @@ export default function Home() {
           search: decodeURIComponent(query),
         },
       ]);
+      localStorage.setItem(
+        "savedSearches",
+        JSON.stringify([
+          ...saveSearch,
+          {
+            id: new Date(),
+            search: decodeURIComponent(query),
+          },
+        ])
+      );
     }
 
     if (saveSearch.length === 0 && query.length > 0) {
@@ -49,9 +59,16 @@ export default function Home() {
           search: decodeURIComponent(query),
         },
       ]);
+      localStorage.setItem(
+        "savedSearches",
+        JSON.stringify([
+          {
+            id: new Date(),
+            search: decodeURIComponent(query),
+          },
+        ])
+      );
     }
-
-    return localStorage.setItem("savedSearches", JSON.stringify(saveSearch));
   };
 
   const getSaveSearch = () => {
@@ -68,22 +85,20 @@ export default function Home() {
   };
 
   const fetchBookmarkData = async (str) => {
-    setQuery(str);
-    fetchData();
+    fetchData(str);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchData();
   };
-  const fetchData = async () => {
+  const fetchData = async (str = null) => {
     setError(false);
     setIsLoading(true);
+    const q = str !== null ? str : query === "" ? undefined : query;
     await axios
       .get(
-        `https://cms-backend-acns.vercel.app/newsapi/data/${feedtype}/${
-          query === "" ? undefined : query
-        }/${category}/${country}`
+        `https://cms-backend-acns.vercel.app/newsapi/data/${feedtype}/${q}/${category}/${country}`
       )
       .then((res) => {
         if (res.data.message) {
