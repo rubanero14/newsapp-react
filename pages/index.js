@@ -34,22 +34,23 @@ export default function Home() {
   const handleSaveSearch = () => {
     if (saveSearch.length > 0 && query.length > 0) {
       setSaveSearch([
-        ...saveSearch,
         {
           id: new Date(),
           search: decodeURIComponent(query),
         },
+        ...saveSearch,
       ]);
       localStorage.setItem(
         "savedSearches",
         JSON.stringify([
-          ...saveSearch,
           {
             id: new Date(),
             search: decodeURIComponent(query),
           },
+          ...saveSearch,
         ])
       );
+      fetchData();
     }
 
     if (saveSearch.length === 0 && query.length > 0) {
@@ -177,31 +178,50 @@ export default function Home() {
               data-bs-parent="#accordionExample"
             >
               <div className="accordion-body row">
-                <div className="col-12">
+                <form className="col-12" onSubmit={handleSubmit}>
                   <div className="d-flex navi-wrapper justify-content-center align-items-center mb-3">
                     <button
-                      className="btn navi btn-primary w-100"
+                      className="btn navi btn-outline-primary w-100"
                       onClick={() => setFeedType("top")}
+                      type="button"
                     >
                       Top Headlines
                     </button>
                     <button
-                      className="btn navi btn-success w-100"
+                      className="btn navi btn-outline-success w-100"
                       onClick={() => setFeedType("all")}
+                      type="button"
                     >
                       Custom Search
                     </button>
                   </div>
                   {feedtype === "all" && (
                     <>
-                      <input
-                        placeholder="Search something.."
-                        type="search"
-                        name="searchQuery"
-                        className="form-control search w-100 mb-2"
-                        onChange={handleQuery}
-                        defaultValue={decodeURIComponent(query)}
-                      />
+                      <div class="input-group">
+                        <input
+                          placeholder="Search something.."
+                          type="search"
+                          name="searchQuery"
+                          className="form-control search w-50"
+                          onChange={handleQuery}
+                          defaultValue={decodeURIComponent(query)}
+                        />
+                        <div class="input-group-append">
+                          <button
+                            className="btn btn-outline-secondary"
+                            type="submit"
+                          >
+                            <i class="bi bi-search"></i>
+                          </button>
+                          <button
+                            className="btn btn-outline-secondary"
+                            type="button"
+                            onClick={handleSaveSearch}
+                          >
+                            <i class="bi bi-bookmark-heart"></i>
+                          </button>
+                        </div>
+                      </div>
                     </>
                   )}
                   {feedtype === "top" && (
@@ -241,22 +261,7 @@ export default function Home() {
                       </select>
                     </>
                   )}
-                  <button
-                    className="btn btn-secondary w-100 mb-2"
-                    onClick={handleSubmit}
-                    type="submit"
-                  >
-                    Search
-                  </button>
-                  {feedtype === "all" && (
-                    <button
-                      className="btn btn-success w-100"
-                      onClick={handleSaveSearch}
-                    >
-                      Bookmark This
-                    </button>
-                  )}
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -284,22 +289,26 @@ export default function Home() {
                 data-bs-parent="#accordionExample1"
               >
                 <div className="accordion-body row">
-                  {saveSearch.map((search) => (
+                  {saveSearch.map((search, idx) => (
                     <div
                       key={search.id}
-                      className="d-flex bookmark justify-content-center align-items-center mb-3"
+                      className={
+                        saveSearch.length - 1 !== idx
+                          ? "d-flex bookmark justify-content-center align-items-center mb-3"
+                          : "d-flex bookmark justify-content-center align-items-center"
+                      }
                     >
                       <button
                         onClick={() => fetchBookmarkData(search.search)}
-                        className="btn btn-outline-secondary w-75"
+                        className="btn btn-outline-secondary h-100 btn-sm w-75"
                       >
                         {search.search.toUpperCase()}
                       </button>
                       <button
                         onClick={() => removeBookmark(search.id)}
-                        className="btn btn-outline-danger w-25"
+                        className="btn btn-outline-danger btn-sm h-100 w-25"
                       >
-                        Del
+                        <i class="bi bi-x-circle"></i>
                       </button>
                     </div>
                   ))}
