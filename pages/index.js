@@ -100,7 +100,7 @@ export default function Home() {
     const q = str !== null ? str : query === "" ? undefined : query;
     await axios
       .get(
-        `https://cms-backend-acns.vercel.app/newsapi/data/${
+        `https://cms-backend-gbhx.vercel.app/newsapi/data/${
           str !== null ? "all" : feedtype
         }/${q}/${category}/${country}`
       )
