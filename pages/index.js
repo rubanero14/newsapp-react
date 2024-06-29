@@ -79,9 +79,11 @@ export default function Home() {
   };
 
   const removeBookmark = (id) => {
-    const newData = saveSearch.filter((search) => search.id !== id);
-    setSaveSearch(newData);
-    localStorage.setItem("savedSearches", JSON.stringify(newData));
+    setSaveSearch(saveSearch.filter((search) => search.id !== id));
+    localStorage.setItem(
+      "savedSearches",
+      JSON.stringify(saveSearch.filter((search) => search.id !== id))
+    );
   };
 
   const fetchBookmarkData = async (str) => {
@@ -98,7 +100,9 @@ export default function Home() {
     const q = str !== null ? str : query === "" ? undefined : query;
     await axios
       .get(
-        `https://cms-backend-acns.vercel.app/newsapi/data/${feedtype}/${q}/${category}/${country}`
+        `https://cms-backend-acns.vercel.app/newsapi/data/${
+          str !== null ? "all" : feedtype
+        }/${q}/${category}/${country}`
       )
       .then((res) => {
         if (res.data.message) {
