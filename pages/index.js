@@ -100,7 +100,8 @@ export default function Home() {
     setIsLoading(true);
     const q = str !== null ? str : query === "" ? undefined : query;
     await axios
-      .get(`https://newsapi-backend-gray.vercel.app/newsapi/data/${
+      .get(
+        `https://newsapi-backend-gray.vercel.app/newsapi/data/${
           str !== null ? "all" : feedtype
         }/${q}/${category}/${country}`
       )
@@ -367,7 +368,8 @@ export default function Home() {
                       <hr Name="col-12 mt-0" />
                       <div
                         className={
-                          data.content === null || data.content === "[Removed]"
+                          data.description === null ||
+                          data.description === "[Removed]"
                             ? "d-none"
                             : ""
                         }
@@ -375,14 +377,15 @@ export default function Home() {
                         <div className="col-12 text-center text-light pt-0 p-4">
                           <em
                             dangerouslySetInnerHTML={{
-                              __html: data.content?.split("[")[0],
+                              __html: data.description,
                             }}
                           ></em>
                         </div>
                       </div>
                       <hr
                         className={
-                          data.content === null || data.content === "[Removed]"
+                          data.description === null ||
+                          data.description === "[Removed]"
                             ? "d-none"
                             : "col-12"
                         }
